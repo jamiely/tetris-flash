@@ -1,0 +1,21 @@
+Tetris
+
+Intro
+ If you don't know how to play this game, may [gG]od
+ have mercy on you--I sure won't. Contact me for 
+ comments, features, and bugs. <tetris@angelforge.com>
+
+Instructions
+ - left, right, down to move
+ - space to drop
+ - ctrl, up to rotate
+ - p to pause
+ - enter, home to restart
+
+Requested features:
+ - Next block window
+
+Reported bugs
+ Please notify me if you encounter any bugs.
+ - Score saving may be a bit fucked.
+ - Sometimes it takes awhile to detect a game is lost.
