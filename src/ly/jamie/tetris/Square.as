@@ -14,8 +14,8 @@ package ly.jamie.tetris {
 
     public function setLocation(location:Point):void {
       this.location = location;
-      this.mc._x = location.x;
-      this.mc._y = location.y;
+      this.mc.x = location.x;
+      this.mc.y = location.y;
     }
 
     public function toString():String {

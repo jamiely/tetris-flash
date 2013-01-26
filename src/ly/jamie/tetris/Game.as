@@ -20,6 +20,7 @@ package ly.jamie.tetris {
     private var restart:Function;
     private var txtDebug:TextField = null;
     private var paused:Boolean = false;
+    private var erasedLines: TextField = null;
 
     private function debug(msg:String):void {
       if(this.txtDebug == null) {
@@ -51,6 +52,12 @@ package ly.jamie.tetris {
     }
     private function initialize():void {
       debug("Game initializing");
+
+      this.erasedLines = new TextField();
+      this.erasedLines.x = 300;
+      this.erasedLines.width = 200;
+      this.addChild(this.erasedLines);
+      this.opaqueBackground = 0xEEEEEE;
 
       // helps to see
       this.opaqueBackground = 0x00ff00;
@@ -123,7 +130,6 @@ package ly.jamie.tetris {
         }
       }
       var run:Function = function():void {
-        debug("Run isGameOver=" + this.gf.isGameOver());
         // adfiodso
         if(this.gf.isGameOver()) {
           debug("Game over");
@@ -137,23 +143,19 @@ package ly.jamie.tetris {
             }
           }
         }
-        debug("Clock: " + this.clock + " Speed: " + this.speed);
-        debug("Paused? " + this.paused);
+        //debug("Clock: " + this.clock + " Speed: " + this.speed);
         if(!this.paused) this.clock++; // increment clock if game is not paused
         if(this.clock >= this.speed) { // if the clock ticks are greater than the speed
           var num:Number = this.gf.gameTick(); // play 1 frame, 1 tick
-          debug("Game tick");
           this.lines += num; // increment the total number of lines cleared
           var multiplier:Number = (this.startingspeed - this.speed); // multiply lines by this
           if(multiplier < 1) multiplier = 1; // make sure multiplier is at least 1
           if(num > 0) this.score += multiplier * num * num; // modify score
           this.erasedLines.text = StringUtils.zeroPad(new String(this.score), 5); // display score
-          //trace(this.gf.score);
           this.clock = 0; // reset clock
         }
         var temp:Number = this.startingspeed - this.lines / 10;
         this.speed = (temp > 0) ? Math.floor(temp) : 0;
-        debug("New speed: " + this.speed);
       };
 
       this.restart = function(): void {

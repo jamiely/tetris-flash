@@ -11,20 +11,27 @@ package ly.jamie.tetris {
     private var rotationDirection:Number = RotationDirection.NORTH;
     public var mc:MovieClip;
 
+    private function squareMC(): MovieClip {
+      var mc:MovieClip = new MovieClip();
+      mc.graphics.beginFill(0x000000);
+      mc.graphics.drawRect(0, 0, this.squareSize, this.squareSize);
+      mc.graphics.endFill();
+      return mc;
+    }
     public function Block(mc:MovieClip, location:Point, blockType:Number) {
       this.mc = mc;
 
       var depth:Number = this.mc.numChildren;
 
-      this.sq1 = new Square(this.mc.addChild(new MovieClip()) as MovieClip, location);
-      this.sq2 = new Square(this.mc.addChild(new MovieClip()) as MovieClip, location);
-      this.sq3 = new Square(this.mc.addChild(new MovieClip()) as MovieClip, location);
-      this.sq4 = new Square(this.mc.addChild(new MovieClip()) as MovieClip, location);
-      
+      this.sq1 = new Square(this.mc.addChild(this.squareMC()) as MovieClip, location);
+      this.sq2 = new Square(this.mc.addChild(this.squareMC()) as MovieClip, location);
+      this.sq3 = new Square(this.mc.addChild(this.squareMC()) as MovieClip, location);
+      this.sq4 = new Square(this.mc.addChild(this.squareMC()) as MovieClip, location);
+
       this.squares = [this.sq1, this.sq2, this.sq3, this.sq4];
       for (var i:Number=0; i<this.squares.length; i++) {
-        this.squares[i].mc._height = squareSize;
-        this.squares[i].mc._width = squareSize;
+        this.squares[i].mc.height = squareSize;
+        this.squares[i].mc.width = squareSize;
       }
 
       this.rotationDirection = RotationDirection.NORTH;

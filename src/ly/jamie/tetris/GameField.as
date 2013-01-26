@@ -88,8 +88,10 @@ package ly.jamie.tetris {
     }
 
     public function getRandomBlock(location:Point):Block {
-      if(!this.isInitialized()) trace("getRandomBlock ERROR");
-      this.allBlocks.push(new Block(this.mc, location, BlockType.Undefined));
+      if(!this.isInitialized()) throw new Error("getRandomBlock ERROR");
+
+      var block:Block = new Block(this.mc, location, BlockType.Undefined);
+      this.allBlocks.push(block);
       return this.allBlocks[this.allBlocks.length-1];
     }
 
