@@ -1,7 +1,7 @@
 # Tetris
 
 A Tetris implementation in ActionScript using Flash MX. Written circa 2004. 
-This implementation was updated in 2013 to remove its fla dependency.
+This implementation was updated in 2013 to remove its fla dependency
 
 # Compile
 
@@ -25,7 +25,7 @@ run make.
 # Demo
 
 Updated version that removes Flash MX dependencies:
-http://jamie.ly/labs/tetris/tetris-2013.swf
+http://jamie.ly/labs/tetris/
 
 Original version from 2004:
 http://jamie.ly/labs/tetris/tetris-2004.swf
