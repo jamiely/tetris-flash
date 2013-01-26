@@ -22,6 +22,7 @@ package ly.jamie.tetris {
     public var mc:MovieClip = null;
     public var stillProcessing:Boolean = false;
     public var score:Number = 0;
+    public var debug:Function = function():void{};
 
     private var allBlocks:Array;
 
@@ -54,6 +55,8 @@ package ly.jamie.tetris {
     public function start():void {
       if(!this.isInitialized()) return;
 
+      debug("GameField: Start");
+
       var x:Number = this.width * this.squareSize;
       var y:Number = this.height * this.squareSize;
       with(this.mc.graphics) {
@@ -66,6 +69,7 @@ package ly.jamie.tetris {
         lineTo(0, 0);
       }
 
+      debug("GameField#Start...drawn");
       for(var i:Number=0; i<this.height; i++) {
         this.arrBitGameField[i] = 0; 
         this.removeLine(i);
@@ -73,18 +77,25 @@ package ly.jamie.tetris {
       if(this.currentBlock != null) {
         this.currentBlock.destroy();
       }
+      debug("GameField#Start...currentBlock destroyed");
 
       for(i=0; i<this.allBlocks.length; i++) {
-        this.allBlocks[i].destroy();
+        try { 
+          this.allBlocks[i].destroy();
+        } catch(ex: Object) {}
       }
+      this.allBlocks = new Array();
+      debug("GameField#Start...all blocks destroyed");
 
       this.currentBlock = this.getRandomBlock(new Point(this.squareSize*2, this.squareSize)); //this.getBlock(new Point(this.squareSize, 0), this.nextBlock.blockType);
+      debug("GameField#Start...random block");
 
       this.stillProcessing = false;
       this.ticks = 0;
       this.score = 0;
 
       this.gameIsOver = false;
+      debug("GameField#Started");
     }
 
     public function getRandomBlock(location:Point):Block {

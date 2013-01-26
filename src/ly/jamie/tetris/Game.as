@@ -22,6 +22,12 @@ package ly.jamie.tetris {
     private var txtDebug:TextField = null;
     private var paused:Boolean = false;
     private var erasedLines: TextField = null;
+    private var run: Function;
+
+    private function tearDown():void {
+      debug("TEARDOWN");
+      this.removeEventListener(Event.ENTER_FRAME, this.run);
+    }
 
     private function debug(msg:String):void {
       if(this.txtDebug == null) {
@@ -140,7 +146,7 @@ package ly.jamie.tetris {
               this.ei.show();
             } else if(!this.ei._visible) {
               this.showScores();
-              this.removeEventListener(Event.ENTER_FRAME, run);
+              this.tearDown();
             }
           }
         }
@@ -158,15 +164,26 @@ package ly.jamie.tetris {
         var temp:Number = this.startingspeed - this.lines / 10;
         this.speed = (temp > 0) ? Math.floor(temp) : 0;
       };
+      this.run = run;
 
       this.restart = function(): void {
+          this.tearDown();
+          debug("RESTART");
+          var self:Object = this;
+          this.gf.debug = function(msg:String):void {
+            self.debug(msg);
+          };
+          debug("This gf=" + this.gf);
           this.gf.start();
-          this.sd._visible = false;
+          debug("Start game field");
+          this.sd.visible = false;
           this.speed = this.startingspeed;
           this.clock = 0;
           this.score = 0;
           this.lines = 0;
+          debug("Reset clock");
           this.addEventListener(Event.ENTER_FRAME, tryRun);
+          debug("Add listener");
           this.paused = false;
       };
 
@@ -174,10 +191,12 @@ package ly.jamie.tetris {
 
       this.addEventListener(Event.ENTER_FRAME, tryRun);
 
+      var KEY_P:Number = 80;
+
       var onKeyDown:Function = function(e:KeyboardEvent): void {
         var code:Number = e.keyCode;
-        debug("Key event! " + code + " down: " + Keyboard.DOWN);
-        if(true) { // ! paused
+        debug("Key event! " + code);
+        if(!this.paused) { // ! paused
           switch(code) {
             case Keyboard.DOWN:
               debug("Down");
@@ -202,19 +221,22 @@ package ly.jamie.tetris {
               while(this.gf.currentBlock.down()) {
               }
               break;
-            case 80: case 112: // p
-              trace("pause");
-              this.paused = ! this.paused;
+            case KEY_P:
+              debug("PAUSE");
+              this.paused = true;
               break;
-            case Keyboard.HOME:
+            case Keyboard.HOME: case Keyboard.ENTER:
+              debug("Attempting to restart");
               this.restart();
+              debug("Attempting to restart");
               break;
           }
         } else {
           switch(code) {
-            case 80: case 112: // p
-              trace("pause");
-              this.paused = ! this.paused;
+            case KEY_P:
+              debug("UNPAUSE");
+              this.paused = false;
+              break;
           }
         }
       }
@@ -230,12 +252,6 @@ package ly.jamie.tetris {
   
       });
       debug("Added key listener");
-/*
-      btnStart.onPress = function() {
-        this._parent.restart();
-        this._visible = false;
-      }
-*/
     }
   }
 }
