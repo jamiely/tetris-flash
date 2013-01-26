@@ -1,6 +1,7 @@
 # Tetris
 
-A tetris implementation in flash. Written circa 2004.
+A Tetris implementation in ActionScript using Flash MX. Written circa 2004. 
+This implementation was updated in 2013 to remove its fla dependency.
 
 # Compile
 
