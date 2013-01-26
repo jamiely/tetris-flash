@@ -11,9 +11,9 @@ package ly.jamie.tetris {
     private var rotationDirection:Number = RotationDirection.NORTH;
     public var mc:MovieClip;
 
-    private function squareMC(): MovieClip {
+    private function squareMC(color:uint): MovieClip {
       var mc:MovieClip = new MovieClip();
-      mc.graphics.beginFill(0x000000);
+      mc.graphics.beginFill(color);
       mc.graphics.drawRect(0, 0, this.squareSize, this.squareSize);
       mc.graphics.endFill();
       return mc;
@@ -22,11 +22,13 @@ package ly.jamie.tetris {
       this.mc = mc;
 
       var depth:Number = this.mc.numChildren;
+      var colors:Array = new Array(0x000000, 0xff0000, 0xffff00, 0x00ffff, 0xff00ff, 0x0000ff);
+      var color:uint = colors[Math.floor(Math.random() * colors.length)];
 
-      this.sq1 = new Square(this.mc.addChild(this.squareMC()) as MovieClip, location);
-      this.sq2 = new Square(this.mc.addChild(this.squareMC()) as MovieClip, location);
-      this.sq3 = new Square(this.mc.addChild(this.squareMC()) as MovieClip, location);
-      this.sq4 = new Square(this.mc.addChild(this.squareMC()) as MovieClip, location);
+      this.sq1 = new Square(this.mc.addChild(this.squareMC(color)) as MovieClip, location);
+      this.sq2 = new Square(this.mc.addChild(this.squareMC(color)) as MovieClip, location);
+      this.sq3 = new Square(this.mc.addChild(this.squareMC(color)) as MovieClip, location);
+      this.sq4 = new Square(this.mc.addChild(this.squareMC(color)) as MovieClip, location);
 
       this.squares = [this.sq1, this.sq2, this.sq3, this.sq4];
       for (var i:Number=0; i<this.squares.length; i++) {
