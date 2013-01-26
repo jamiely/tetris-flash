@@ -118,8 +118,6 @@ package ly.jamie.tetris {
       for(var i:Number=0; i<this.squares.length; i++) 
         newPoints[i] = this.moveRight(this.squares[i].location);
 
-      //if(newPoints.length < 4) trace("Right");	
-      //else trace("NewPoints -- Right: "+newPoints.length);		
 
       if(!GameField.gf.areInBounds(newPoints)) {
         trace("Out of bounds.");

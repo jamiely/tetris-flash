@@ -3,6 +3,7 @@ package ly.jamie.tetris {
   import flash.display.MovieClip;
   import flash.text.*;
   import flash.events.*;
+  import flash.ui.*;
 
   public class Game extends MovieClip {
     private var focusEnabled:Boolean = true;
@@ -173,52 +174,62 @@ package ly.jamie.tetris {
 
       this.addEventListener(Event.ENTER_FRAME, tryRun);
 
-/*
-
-      this.keylistener = new Object();
-      this.keylistener.mc = this;
-      Key.addListener(this.keylistener);
-
-      this.keylistener.onKeyDown = function() {
-        if(! this.mc.paused) {
-          switch(Key.getCode()) {
-            case Key.DOWN:
-              this.mc.gf.currentBlock.down();
+      var onKeyDown:Function = function(e:KeyboardEvent): void {
+        var code:Number = e.keyCode;
+        debug("Key event! " + code + " down: " + Keyboard.DOWN);
+        if(true) { // ! paused
+          switch(code) {
+            case Keyboard.DOWN:
+              debug("Down");
+              this.gf.currentBlock.down();
               break;
-            case Key.RIGHT:
-              this.mc.gf.currentBlock.right();
+            case Keyboard.RIGHT:
+              debug("Right");
+              this.gf.currentBlock.right();
               break;
-            case Key.LEFT:
-              this.mc.gf.currentBlock.left();
+            case Keyboard.LEFT:
+              debug("Left");
+              this.gf.currentBlock.left();
               break;
-            case Key.CONTROL:
-              this.mc.gf.currentBlock.rotate(true);
+            case Keyboard.CONTROL:
+              this.gf.currentBlock.rotate(true);
               break;
-            case Key.UP:
-              this.mc.gf.currentBlock.rotate(false);
+            case Keyboard.UP:
+              debug("Up");
+              this.gf.currentBlock.rotate(false);
               break;
-            case Key.SPACE:
-              while(this.mc.gf.currentBlock.down()) {
+            case Keyboard.SPACE:
+              while(this.gf.currentBlock.down()) {
               }
               break;
             case 80: case 112: // p
               trace("pause");
-              this.mc.paused = ! this.mc.paused;
+              this.paused = ! this.paused;
               break;
-            case Key.HOME:
-              this.mc.restart();
+            case Keyboard.HOME:
+              this.restart();
               break;
           }
         } else {
-          switch(Key.getCode()) {
+          switch(code) {
             case 80: case 112: // p
               trace("pause");
-              this.mc.paused = ! this.mc.paused;
+              this.paused = ! this.paused;
           }
         }
       }
-*/
 
+      this.stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent):void {
+        try { 
+          onKeyDown.call(that, e);
+        }
+        catch(ex:Object) {
+          debug("Problem executing key event: " + ex.message + 
+            "\n" + ex.getStackTrace());
+        }
+  
+      });
+      debug("Added key listener");
 /*
       btnStart.onPress = function() {
         this._parent.restart();
