@@ -5,12 +5,12 @@ package ly.jamie.tetris {
     public static var SOUTH:Number = 3;
     public static var WEST:Number = 4;
 
-    public static function clockwise(dir:Number) {
+    public static function clockwise(dir:Number):Number {
       dir++;
       if(dir > 4) dir = 1;
       return dir;
     }
-    public static function counterClockwise(dir:Number) {
+    public static function counterClockwise(dir:Number):Number {
       dir--;
       if(dir < 1) dir = 4;
       return dir;

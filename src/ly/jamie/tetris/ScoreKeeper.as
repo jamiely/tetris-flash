@@ -17,19 +17,21 @@
 
 package ly.jamie.tetris {
   public class ScoreKeeper {
-    var lv:LoadVars;
-    var serverString:String;
-    var scores:Array;
-    var isReady:Boolean = false;
+    //var lv:LoadVars;
+    private var lv:Object;
+    private var serverString:String;
+    private var scores:Array;
+    private var isReady:Boolean = false;
     public function ScoreKeeper(gameName:String, serverString:String, password:String) {
-      this.lv = new LoadVars();
+      return;
+      //this.lv = new LoadVars();
       this.lv._parent = this;
       this.lv.game = gameName;
       this.lv.password = password;
       this.serverString = serverString;
-      this.lv.onLoad = function(success) {
+      this.lv.onLoad = function(success:Object): void {
         trace("Loaded? " + success);
-        for(var item in this) {
+        for(var item:Object in this) {
           trace(item + "=" + this[item]);
         }
 
@@ -76,6 +78,7 @@ package ly.jamie.tetris {
      *
      */
     public function addScores(scores:Array):Boolean {
+      return false;
       // build scores string
       var strScores:Array = new Array();
       for(var i:Number=0; i<scores.length; i++)

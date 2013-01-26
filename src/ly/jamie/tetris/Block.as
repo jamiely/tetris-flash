@@ -1,4 +1,5 @@
 package ly.jamie.tetris {
+  import flash.display.MovieClip;
   public class Block extends MovieClip {
     public var sq1:Square;
     public var sq2:Square;
@@ -13,12 +14,12 @@ package ly.jamie.tetris {
     public function Block(mc:MovieClip, location:Point, blockType:Number) {
       this.mc = mc;
 
-      var depth:Number = this.mc.getNextHighestDepth();
+      var depth:Number = this.mc.numChildren;
 
-      this.sq1 = new Square(this.mc.attachMovie("square", "sq" + depth, depth++), location);
-      this.sq2 = new Square(this.mc.attachMovie("square", "sq" + depth, depth++), location);
-      this.sq3 = new Square(this.mc.attachMovie("square", "sq" + depth, depth++), location);
-      this.sq4 = new Square(this.mc.attachMovie("square", "sq" + depth, depth++), location);
+      this.sq1 = new Square(this.mc.addChild(new MovieClip()) as MovieClip, location);
+      this.sq2 = new Square(this.mc.addChild(new MovieClip()) as MovieClip, location);
+      this.sq3 = new Square(this.mc.addChild(new MovieClip()) as MovieClip, location);
+      this.sq4 = new Square(this.mc.addChild(new MovieClip()) as MovieClip, location);
       
       this.squares = [this.sq1, this.sq2, this.sq3, this.sq4];
       for (var i:Number=0; i<this.squares.length; i++) {
@@ -61,7 +62,7 @@ package ly.jamie.tetris {
       //trace("Block created.");
     }
 
-    public function traceBlockPositions(Void):Void {
+    public function traceBlockPositions():void {
       for(var i:Number=0; i<this.squares.length; i++) 
         trace(this.squares[i].location.x + ", " + this.squares[i].location.y);
     }
@@ -93,6 +94,8 @@ package ly.jamie.tetris {
         GameField.gf.stopBlock(this);
         return false;
       }
+
+      return false;
     }
     public function blockPositionIsValid(newPoints:Array):Boolean {
       var isEmpty:Boolean = true;
@@ -177,7 +180,7 @@ package ly.jamie.tetris {
       }
       
       var newLocations:Array = new Array(4);
-      for(var i:Number=0; i<this.squares.length; i++) 
+      for(i=0;i<this.squares.length; i++) 
         newLocations[i] = this.squares[i].location;
 
       if(GameField.gf.areEmpty(newLocations) && GameField.gf.areInBounds(newLocations)) {//this.blockPositionIsValid(newLocations)) 
@@ -187,14 +190,15 @@ package ly.jamie.tetris {
       else { // restore old points
         this.setLocations(oldLocations)
       }
-      
+
+      return false;
     }
 
     /**
      *  13
      *  24
      */
-    public function createSquare(location:Point):Void {
+    public function createSquare(location:Point):void {
       this.sq1.setLocation(new Point(location.x, location.y));
       this.sq2.setLocation(new Point(location.x, location.y + squareSize));
       this.sq3.setLocation(new Point(location.x + squareSize, location.y));
@@ -207,7 +211,7 @@ package ly.jamie.tetris {
      *  3
      *  4
      */
-    public function createLine(location:Point, rotationDirection:Number):Void {
+    public function createLine(location:Point, rotationDirection:Number):void {
       var locations:Array;
       switch(rotationDirection) {
         case RotationDirection.NORTH: case RotationDirection.SOUTH:
@@ -234,7 +238,7 @@ package ly.jamie.tetris {
      *  2      321      2       123
      * 43               1         4
      */
-    public function createJ(location:Point, rotationDirection:Number):Void {
+    public function createJ(location:Point, rotationDirection:Number):void {
       var locations:Array;
       switch(rotationDirection) {
         case RotationDirection.NORTH:
@@ -274,7 +278,7 @@ package ly.jamie.tetris {
      *  2    321    2    123
      *  34   4      1
      */
-    public function createL(location:Point, rotationDirection:Number):Void {
+    public function createL(location:Point, rotationDirection:Number):void {
       var locations:Array;
       switch(rotationDirection) {
         case RotationDirection.NORTH:
@@ -315,7 +319,7 @@ package ly.jamie.tetris {
      *  324    21   423    12
      *         4     1      3
      */
-    public function createT(location:Point, rotationDirection:Number):Void {
+    public function createT(location:Point, rotationDirection:Number):void {
       var locations:Array;
       switch(rotationDirection) {
         case RotationDirection.NORTH: 
@@ -357,7 +361,7 @@ package ly.jamie.tetris {
      *  4       31
      *   
      */
-    public function createZ(location:Point, rotationDirection:Number) {
+    public function createZ(location:Point, rotationDirection:Number):void {
       var locations:Array;
       switch(rotationDirection) {
         case RotationDirection.NORTH: case RotationDirection.SOUTH:	
@@ -384,7 +388,7 @@ package ly.jamie.tetris {
      *  23     21   32   12
      *   4    43     1    
      */
-    public function createS(location:Point, rotationDirection:Number) {
+    public function createS(location:Point, rotationDirection:Number):void {
       var locations:Array;
       switch(rotationDirection) {
         case RotationDirection.SOUTH: case RotationDirection.NORTH:
@@ -411,7 +415,7 @@ package ly.jamie.tetris {
       this.setLocations(locations);
     }
 
-    public function setLocations(locations:Array) {
+    public function setLocations(locations:Array):void {
       if(locations.length == 4) {
         for(var i:Number = 0; i<this.squares.length; i++) {
           this.squares[i].setLocation(locations[i]);
@@ -420,17 +424,17 @@ package ly.jamie.tetris {
         trace("Could not set locations.  Only recieved " + locations.length + " points.");
       }
     }
-    public function stopSquares() {
+    public function stopSquares(): void {
       for(var i:Number = 0; i<this.squares.length; i++)
         GameField.gf.stopSquare(this.squares[i]);
     }
 
     public function moveLeft(pt:Point):Point {
-      var return_point = new Point(pt.x - squareSize, pt.y);
+      var return_point:Point = new Point(pt.x - squareSize, pt.y);
       return return_point;
     }
     public function moveRight(pt:Point): Point {
-      var return_point = new Point(pt.x + squareSize, pt.y);
+      var return_point:Point = new Point(pt.x + squareSize, pt.y);
       return return_point;
     }
     public function moveDown(pt:Point):Point {
@@ -443,14 +447,14 @@ package ly.jamie.tetris {
         topPoint = Math.min(topPoint, this.squares[i].location.y);
       return topPoint;
     }
-    public function destroy():Void {
+    public function destroy():void {
       for(var i:Number=0; i<this.squares.length; i++) {
         if(this.squares[i] != null) 
           this.squares[i].destroy();
       }
       delete this;
     }
-    public function toString():String {
+    override public function toString():String {
       var returnString:String = "Block";
       for(var i:Number=0;i<this.squares.length; i++) {
         returnString += "\t" + this.squares[i].toString() + "\n";

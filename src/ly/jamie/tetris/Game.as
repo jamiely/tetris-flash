@@ -93,15 +93,10 @@ package ly.jamie.tetris {
 
       this.onEnterFrame = run;
 
+/*
       Key.addListener(this.keylistener);
 
       this.keylistener.onKeyDown = function() {
-        //trace("keyup");
-        /*
-        if( (Key.getCode() >= 65 && Key.getCode() <= 90) ||
-          (Key.getCode() >= 97 && Key.getCode() <= 122)) {
-          this.mc.ei
-        }*/
         if(! this.mc.paused) {
           switch(Key.getCode()) {
             case Key.DOWN:
@@ -127,13 +122,6 @@ package ly.jamie.tetris {
               trace("pause");
               this.mc.paused = ! this.mc.paused;
               break;
-        /*		case Key.PGUP:
-              if(this.mc.speed > 0) this.mc.speed--;
-              break;
-            case Key.PGDN:
-              this.mc.speed++;
-              break;*/
-            //case Key.ENTER: 
             case Key.HOME:
               this.mc.restart();
               break;
@@ -146,7 +134,7 @@ package ly.jamie.tetris {
           }
         }
       }
-
+*/
 
       btnStart.onPress = function() {
         this._parent.restart();

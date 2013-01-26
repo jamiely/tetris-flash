@@ -1,9 +1,10 @@
 package ly.jamie.tetris {
+  import flash.display.*;
   public class Square {
     public var location:Point;
     //public size:Size;
-    public var foreColor:Color;
-    public var backColor:Color;
+    public var foreColor:uint;
+    public var backColor:uint;
     public var mc:MovieClip
 
     public function Square(mc:MovieClip, location:Point) {
@@ -11,7 +12,7 @@ package ly.jamie.tetris {
       this.location = location;
     }
 
-    public function setLocation(location:Point):Void {
+    public function setLocation(location:Point):void {
       this.location = location;
       this.mc._x = location.x;
       this.mc._y = location.y;
@@ -21,13 +22,14 @@ package ly.jamie.tetris {
       return location.toString();
     }
 
-    public function destroy():Void {
-      this.mc.removeMovieClip();
+    public function destroy():void {
+      //this.mc.removeMovieClip();
+      this.mc.parent.removeChild(mc);
       delete this;
     }
 
-    public function flashAndDestroy(): Void {
-      this.mc.onEnterFrame = function() {
+    public function flashAndDestroy(): void {
+      this.mc.onEnterFrame = function():void {
         if(this.count == undefined) this.count = 0;
         this.count++;
         if(this.count % 2 == 0) this._visible = true;
