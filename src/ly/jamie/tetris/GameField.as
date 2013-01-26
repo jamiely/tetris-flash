@@ -1,7 +1,7 @@
 package ly.jamie.tetris {
   import flash.display.MovieClip;
   public class GameField {
-    public static var SquareSize:Number = 5;
+    public var squareSize:Number = 5;
     public var arrBitGameField:Array;
     public var arrGameField:Array;
     public var height:Number=20;
@@ -54,20 +54,19 @@ package ly.jamie.tetris {
     public function start():void {
       if(!this.isInitialized()) return;
 
+
       trace("Start");
 
-      var x:Number = this.width * GameField.SquareSize;
-      var y:Number = this.height * GameField.SquareSize;
-      with(this.mc) {
+      var x:Number = this.width * this.squareSize;
+      var y:Number = this.height * this.squareSize;
+      with(this.mc.graphics) {
         clear();
-        //beginFill(0xFFFFFF, 100);
         lineStyle (1, 0x000000, 100);
         moveTo(0, 0);
         lineTo(x, 0);
         lineTo(x, y);
         lineTo(0, y);
         lineTo(0, 0);
-        //endFill();
       }
 
       for(var i:Number=0; i<this.height; i++) {
@@ -82,7 +81,7 @@ package ly.jamie.tetris {
         this.allBlocks[i].destroy();
       }
 
-      this.currentBlock = this.getRandomBlock(new Point(GameField.SquareSize*2, GameField.SquareSize)); //this.getBlock(new Point(GameField.SquareSize, 0), this.nextBlock.blockType);
+      this.currentBlock = this.getRandomBlock(new Point(this.squareSize*2, this.squareSize)); //this.getBlock(new Point(this.squareSize, 0), this.nextBlock.blockType);
 
       this.stillProcessing = false;
       this.ticks = 0;
@@ -123,7 +122,7 @@ package ly.jamie.tetris {
                   this.arrGameField[x][index].setLocation( 
                     new Point(
                       this.arrGameField[x][index].location.x,
-                      this.arrGameField[x][index].location.y + GameField.SquareSize));
+                      this.arrGameField[x][index].location.y + this.squareSize));
                 }
               }
             } else {
@@ -171,7 +170,7 @@ package ly.jamie.tetris {
           // inc score
           // redraw
         }
-        currentBlock = this.getRandomBlock(new Point(GameField.SquareSize*2, GameField.SquareSize)); //this.getBlock(new Point(GameField.SquareSize, 0), this.nextBlock.blockType);
+        currentBlock = this.getRandomBlock(new Point(this.squareSize*2, this.squareSize)); //this.getBlock(new Point(this.squareSize, 0), this.nextBlock.blockType);
       }
       this.stillProcessing = false;
       return erasedLines;
@@ -219,7 +218,7 @@ package ly.jamie.tetris {
       return false;
     }
     public function normalizeCoordinate(num:Number):Number {
-      return Math.floor(num/GameField.SquareSize);
+      return Math.floor(num/this.squareSize);
     }
     public function isGameOver():Boolean {
       return gameIsOver;

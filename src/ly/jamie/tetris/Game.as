@@ -25,7 +25,8 @@ package ly.jamie.tetris {
         // create a debug text field
         this.txtDebug = new TextField();
         this.txtDebug.width = 500;
-        this.txtDebug.x = 0;
+        this.txtDebug.opaqueBackground = 0xCCCCCC;
+        this.txtDebug.x = 100;
         this.txtDebug.y = 300;
         this.addChild(this.txtDebug);
       }
@@ -37,12 +38,14 @@ package ly.jamie.tetris {
       }
       catch(ex:Object) {
         debug("Problem initializing game: " + ex.message + 
-          "\n" + ex.stacktrace);
+          "\n" + ex.getStackTrace());
       }
     }
-    private function drawBackground(mc: MovieClip, fillColor:uint): void {
+    private function drawBackground(mc: MovieClip, 
+      fillColor:uint, width:Number=100, height:Number=80): void {
+
       mc.graphics.beginFill(fillColor);
-      mc.graphics.drawRect(0, 0, 100, 80);
+      mc.graphics.drawRect(0, 0, width, height);
       mc.graphics.endFill();
     }
     private function initialize():void {
@@ -58,16 +61,14 @@ package ly.jamie.tetris {
       debug("Game field created.");
       this.gfmc = new MovieClip();
       this.gfmc.name = "mcGamefield";
-      this.gfmc.x = 0;
-      this.gfmc.y = 0;
-      this.drawBackground(this.gfmc, 0x0000ff);
+      this.drawBackground(this.gfmc, 0x0000ff, 200, 300);
       this.addChild(this.gfmc);
       debug("Game field movie clip added");
 
       // score pane
       this.sd = new MovieClip();
       this.addChild(this.sd);
-      this.sd.x = 100;
+      this.sd.x = 200;
       this.sd.y = 0;
       this.drawBackground(this.sd, 0xff0000);
       this.sd.name = "mcScore";
@@ -89,14 +90,16 @@ package ly.jamie.tetris {
       this.gf.setMovieClip(this.gfmc);
       this.gf.start();
       debug("Game started");
+
       this.startingspeed = 10;
       this.speed = this.startingspeed;
       this.clock = 0;
       this.score = 0;
       this.lines = 0;
+      debug("Clock setup")
 
       this.sc = new ScoreKeeper("tetris", "http://www.angelforge.com/flash/tetris/class/ScoreKeeper.php", "b");
-
+      debug("Score keeper setup")
 
       this.showScores = function():void {
         var scores:Array = sc.getScores();
@@ -133,7 +136,7 @@ package ly.jamie.tetris {
         }
         var temp:Number = this.startingspeed - this.lines / 10;
         this.speed = (temp > 0) ? Math.floor(temp) : 0;
-      }
+      };
 
       this.restart = function(): void {
           this.gf.start();
@@ -144,7 +147,9 @@ package ly.jamie.tetris {
           this.lines = 0;
           this.addEventListener(Event.ENTER_FRAME, run);
           this.paused = false;
-      }
+      };
+
+      debug("Functions defined");
 
       this.addEventListener(Event.ENTER_FRAME, run);
 
