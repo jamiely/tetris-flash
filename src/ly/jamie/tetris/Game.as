@@ -20,6 +20,7 @@ package ly.jamie.tetris {
     private var txtDebug:TextField = null;
     private var paused:Boolean = false;
     private var erasedLines: TextField = null;
+    private var txtInstructions: TextField = null;
     private var tryRun: Function;
 
     private function tearDown():void {
@@ -56,6 +57,15 @@ package ly.jamie.tetris {
       mc.graphics.endFill();
     }
     private function setupMovieclips(): void {
+      // instructions
+      this.txtInstructions = new TextField();
+      this.txtInstructions.width = 400;
+      this.txtInstructions.opaqueBackground = 0xCCCCCC;
+      this.txtInstructions.x = 200;
+      this.txtInstructions.y = 100;
+      this.txtInstructions.text = "Instructions\n* Left,Right - move a block \n* CTRL,UP - rotate a block \n* Spacebar - Fast drop a block \n* HOME,ENTER - Restart"
+      this.addChild(this.txtInstructions);
+      
       this.erasedLines = new TextField();
       this.erasedLines.x = 300;
       this.erasedLines.width = 200;
