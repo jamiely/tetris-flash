@@ -165,7 +165,6 @@ package ly.jamie.tetris {
         debug("This gf=" + this.gf);
         this.gf.start();
         debug("Start game field");
-        this.sd.visible = false;
         this.speed = this.startingspeed;
         this.resetClockAndScore();
         debug("Reset clock");
