@@ -20,8 +20,8 @@ package ly.jamie.tetris {
     //var lv:LoadVars;
     private var lv:Object;
     private var serverString:String;
-    private var scores:Array;
-    private var isReady:Boolean = false;
+    public var scores:Array;
+    public var isReady:Boolean = false;
     public function ScoreKeeper(gameName:String, serverString:String, password:String) {
       return;
       //this.lv = new LoadVars();

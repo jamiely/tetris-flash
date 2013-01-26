@@ -22,11 +22,10 @@ package ly.jamie.tetris {
     private var txtDebug:TextField = null;
     private var paused:Boolean = false;
     private var erasedLines: TextField = null;
-    private var run: Function;
 
     private function tearDown():void {
       debug("TEARDOWN");
-      this.removeEventListener(Event.ENTER_FRAME, this.run);
+      this.removeEventListener(Event.ENTER_FRAME, this.runGameLoop);
     }
 
     private function debug(msg:String):void {
@@ -123,48 +122,18 @@ package ly.jamie.tetris {
           //trace(scores[i].name + " " + scores[i].score);
           this.sd.txtScores.text += "\n" + scores[i].name + " " + scores[i].score;
         }
-        this.sd._visible = true;
+        this.sd.visible = true;
       }
 
-      var that:Object = this;
+      var self:Object = this;
       var tryRun:Function = function():void {
         try {
-          run.call(that);
+          self.runGameLoop.call(self);
         }
         catch(ex:Object) {
-          debug("Problem running: " + ex.message + 
-            "\n" + ex.getStackTrace());
+          debug("Problem running: " + ex.message + "\n" + ex.getStackTrace());
         }
       }
-      var run:Function = function():void {
-        // adfiodso
-        if(this.gf.isGameOver()) {
-          debug("Game over");
-          this.paused = true;
-          if(this.sc.isReady) {
-            if(!this.ei._visible && this.sc.scores[this.sc.scores.length-1].score < this.score) { // enter high score
-              this.ei.show();
-            } else if(!this.ei._visible) {
-              this.showScores();
-              this.tearDown();
-            }
-          }
-        }
-        //debug("Clock: " + this.clock + " Speed: " + this.speed);
-        if(!this.paused) this.clock++; // increment clock if game is not paused
-        if(this.clock >= this.speed) { // if the clock ticks are greater than the speed
-          var num:Number = this.gf.gameTick(); // play 1 frame, 1 tick
-          this.lines += num; // increment the total number of lines cleared
-          var multiplier:Number = (this.startingspeed - this.speed); // multiply lines by this
-          if(multiplier < 1) multiplier = 1; // make sure multiplier is at least 1
-          if(num > 0) this.score += multiplier * num * num; // modify score
-          this.erasedLines.text = StringUtils.zeroPad(new String(this.score), 5); // display score
-          this.clock = 0; // reset clock
-        }
-        var temp:Number = this.startingspeed - this.lines / 10;
-        this.speed = (temp > 0) ? Math.floor(temp) : 0;
-      };
-      this.run = run;
 
       this.restart = function(): void {
           this.tearDown();
@@ -243,7 +212,7 @@ package ly.jamie.tetris {
 
       this.stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent):void {
         try { 
-          onKeyDown.call(that, e);
+          onKeyDown.call(self, e);
         }
         catch(ex:Object) {
           debug("Problem executing key event: " + ex.message + 
@@ -252,6 +221,36 @@ package ly.jamie.tetris {
   
       });
       debug("Added key listener");
+    }
+
+    /// The game loop
+    private function runGameLoop(): void {
+      // adfiodso
+      if(this.gf.isGameOver()) {
+        debug("Game over");
+        this.paused = true;
+        if(this.sc.isReady) {
+          if(!this.ei._visible && this.sc.scores[this.sc.scores.length-1].score < this.score) { // enter high score
+            this.ei.show();
+          } else if(!this.ei._visible) {
+            this.showScores();
+            this.tearDown();
+          }
+        }
+      }
+      //debug("Clock: " + this.clock + " Speed: " + this.speed);
+      if(!this.paused) this.clock++; // increment clock if game is not paused
+      if(this.clock >= this.speed) { // if the clock ticks are greater than the speed
+        var num:Number = this.gf.gameTick(); // play 1 frame, 1 tick
+        this.lines += num; // increment the total number of lines cleared
+        var multiplier:Number = (this.startingspeed - this.speed); // multiply lines by this
+        if(multiplier < 1) multiplier = 1; // make sure multiplier is at least 1
+        if(num > 0) this.score += multiplier * num * num; // modify score
+        this.erasedLines.text = StringUtils.zeroPad(new String(this.score), 5); // display score
+        this.clock = 0; // reset clock
+      }
+      var temp:Number = this.startingspeed - this.lines / 10;
+      this.speed = (temp > 0) ? Math.floor(temp) : 0;
     }
   }
 }
