@@ -1,4 +1,4 @@
-class GameField {
+public class GameField {
 	public static var SquareSize:Number = 5;
 	public var arrBitGameField:Array;
 	public var arrGameField:Array;

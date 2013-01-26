@@ -1,2 +1,2 @@
 default:
-	mxmlc src/Tetris.as -source-path src -output bin/Tetris.swf
+	mxmlc src/ly/jamie/tetris/Game.as -source-path src -output bin/Tetris.swf
