@@ -19,6 +19,7 @@ package ly.jamie.tetris {
     private var showScores:Function;
     private var restart:Function;
     private var txtDebug:TextField = null;
+    private var paused:Boolean = false;
 
     private function debug(msg:String):void {
       if(this.txtDebug == null) {
@@ -111,8 +112,21 @@ package ly.jamie.tetris {
         this.sd._visible = true;
       }
 
+      var that:Object = this;
+      var tryRun:Function = function():void {
+        try {
+          run.call(that);
+        }
+        catch(ex:Object) {
+          debug("Problem running: " + ex.message + 
+            "\n" + ex.getStackTrace());
+        }
+      }
       var run:Function = function():void {
+        debug("Run isGameOver=" + this.gf.isGameOver());
+        // adfiodso
         if(this.gf.isGameOver()) {
+          debug("Game over");
           this.paused = true;
           if(this.sc.isReady) {
             if(!this.ei._visible && this.sc.scores[this.sc.scores.length-1].score < this.score) { // enter high score
@@ -123,9 +137,12 @@ package ly.jamie.tetris {
             }
           }
         }
+        debug("Clock: " + this.clock + " Speed: " + this.speed);
+        debug("Paused? " + this.paused);
         if(!this.paused) this.clock++; // increment clock if game is not paused
         if(this.clock >= this.speed) { // if the clock ticks are greater than the speed
           var num:Number = this.gf.gameTick(); // play 1 frame, 1 tick
+          debug("Game tick");
           this.lines += num; // increment the total number of lines cleared
           var multiplier:Number = (this.startingspeed - this.speed); // multiply lines by this
           if(multiplier < 1) multiplier = 1; // make sure multiplier is at least 1
@@ -136,6 +153,7 @@ package ly.jamie.tetris {
         }
         var temp:Number = this.startingspeed - this.lines / 10;
         this.speed = (temp > 0) ? Math.floor(temp) : 0;
+        debug("New speed: " + this.speed);
       };
 
       this.restart = function(): void {
@@ -145,13 +163,13 @@ package ly.jamie.tetris {
           this.clock = 0;
           this.score = 0;
           this.lines = 0;
-          this.addEventListener(Event.ENTER_FRAME, run);
+          this.addEventListener(Event.ENTER_FRAME, tryRun);
           this.paused = false;
       };
 
       debug("Functions defined");
 
-      this.addEventListener(Event.ENTER_FRAME, run);
+      this.addEventListener(Event.ENTER_FRAME, tryRun);
 
 /*
 
