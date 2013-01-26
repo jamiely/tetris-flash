@@ -172,7 +172,7 @@ package ly.jamie.tetris {
     public function removeLine(line:Number):void {
       for(var i:Number=0; i<this.width; i++) {
         if(this.arrGameField[i][line] != null) {
-          this.arrGameField[i][line].destroy(); //flashAndDestroy();
+          this.arrGameField[i][line].destroy(); 
           this.arrGameField[i][line] = null;
         }
       }
