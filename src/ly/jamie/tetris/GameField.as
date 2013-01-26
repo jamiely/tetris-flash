@@ -1,7 +1,7 @@
 package ly.jamie.tetris {
   import flash.display.MovieClip;
   public class GameField {
-    public var squareSize:Number = 5;
+    public var squareSize:Number = 20;
     public var arrBitGameField:Array;
     public var arrGameField:Array;
     public var height:Number=20;
@@ -53,9 +53,6 @@ package ly.jamie.tetris {
 
     public function start():void {
       if(!this.isInitialized()) return;
-
-
-      trace("Start");
 
       var x:Number = this.width * this.squareSize;
       var y:Number = this.height * this.squareSize;

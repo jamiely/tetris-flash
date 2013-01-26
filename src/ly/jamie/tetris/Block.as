@@ -7,7 +7,7 @@ package ly.jamie.tetris {
     public var sq4:Square;
     public var squares:Array;
     public var blockType:Number;
-    private var squareSize:Number = 5;
+    private var squareSize:Number = 20;
     private var rotationDirection:Number = RotationDirection.NORTH;
     public var mc:MovieClip;
 
