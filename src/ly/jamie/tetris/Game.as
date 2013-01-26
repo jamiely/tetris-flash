@@ -157,6 +157,13 @@ package ly.jamie.tetris {
 
       var code:Number = e.keyCode;
       debug("Key event! " + code);
+
+      switch(code) {
+        case Keyboard.HOME: case Keyboard.ENTER:
+          this.restart();
+          return;
+      }
+
       if(!this.paused) { // ! paused
         switch(code) {
           case Keyboard.DOWN:
@@ -186,11 +193,8 @@ package ly.jamie.tetris {
             debug("PAUSE");
             this.paused = true;
             break;
-          case Keyboard.HOME: case Keyboard.ENTER:
-            this.restart();
-            break;
         }
-      } else {
+      } else { // Paused
         switch(code) {
           case KEY_P:
             debug("UNPAUSE");
@@ -217,9 +221,9 @@ package ly.jamie.tetris {
         debug("Game over");
         this.paused = true;
         if(this.sc.isReady) {
-          if(!this.ei._visible && this.sc.scores[this.sc.scores.length-1].score < this.score) { // enter high score
+          if(!this.ei.visible && this.sc.scores[this.sc.scores.length-1].score < this.score) { // enter high score
             this.ei.show();
-          } else if(!this.ei._visible) {
+          } else if(!this.ei.visible) {
             this.showScores();
             this.tearDown();
           }

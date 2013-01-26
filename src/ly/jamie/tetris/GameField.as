@@ -72,10 +72,22 @@ package ly.jamie.tetris {
       debug("GameField#Start...drawn");
       for(var i:Number=0; i<this.height; i++) {
         this.arrBitGameField[i] = 0; 
-        this.removeLine(i);
+        try {
+          this.removeLine(i);
+        }
+        catch(ex:Object) {}
       }
+      debug("GameField#Start...lines removed");
+
       if(this.currentBlock != null) {
-        this.currentBlock.destroy();
+        try {
+          this.currentBlock.destroy();
+        }
+        catch(ex: Object) {
+        }
+        finally {
+          this.currentBlock = null;
+        }
       }
       debug("GameField#Start...currentBlock destroyed");
 
