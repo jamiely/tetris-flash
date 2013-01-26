@@ -96,5 +96,8 @@ package ly.jamie.tetris {
     public function getServerURL():String {
       return this.serverString;
     }
+    public function getScores():Array {
+      return this.scores;
+    }
   }
 }
