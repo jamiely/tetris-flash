@@ -21,7 +21,13 @@ package ly.jamie.tetris {
     private var paused:Boolean = false;
     private var erasedLines: TextField = null;
     private var txtInstructions: TextField = null;
+    private var txtScore: TextField = null;
     private var tryRun: Function;
+
+    private function setScore(score:Number): void {
+      this.score = score;
+      this.txtScore.text = StringUtils.zeroPad(new String(score), 6); // display score
+    }
 
     private function tearDown():void {
       debug("TEARDOWN");
@@ -67,7 +73,7 @@ package ly.jamie.tetris {
       this.addChild(this.txtInstructions);
       
       this.erasedLines = new TextField();
-      this.erasedLines.x = 300;
+      this.erasedLines.x = 400;
       this.erasedLines.width = 200;
       this.addChild(this.erasedLines);
 
@@ -83,9 +89,15 @@ package ly.jamie.tetris {
       this.sd = new MovieClip();
       this.sd.x = 200;
       this.sd.y = 0;
-      this.drawBackground(this.sd, 0xff0000);
       this.sd.name = "mcScore";
       this.addChild(this.sd);
+      this.txtScore = new TextField();
+      this.txtScore.width = 200;
+      this.txtScore.x = 0;
+      this.txtScore.y = 0;
+      this.txtScore.text = "Score\n* Left,Right - move a block \n* CTRL,UP - rotate a block \n* Spacebar - Fast drop a block \n* HOME,ENTER - Restart"
+      this.txtScore.defaultTextFormat = new TextFormat('Verdana',40,0x000000);
+      this.sd.addChild(this.txtScore);
       debug("Score pane created");
 
       // enter initials pane
@@ -99,7 +111,7 @@ package ly.jamie.tetris {
     }
     private function resetClockAndScore(): void {
       this.clock = 0;
-      this.score = 0;
+      this.setScore(0);
       this.lines = 0;
     }
     private function initialize():void {
@@ -245,8 +257,10 @@ package ly.jamie.tetris {
         this.lines += num; // increment the total number of lines cleared
         var multiplier:Number = (this.startingspeed - this.speed); // multiply lines by this
         if(multiplier < 1) multiplier = 1; // make sure multiplier is at least 1
-        if(num > 0) this.score += multiplier * num * num; // modify score
-        this.erasedLines.text = StringUtils.zeroPad(new String(this.score), 5); // display score
+        if(num > 0) {
+          this.setScore(this.score + 100 * multiplier * num * num); // modify score
+        }
+        this.erasedLines.text = StringUtils.zeroPad(new String(this.lines), 4); // display score
         this.clock = 0; // reset clock
       }
       var temp:Number = this.startingspeed - this.lines / 10;

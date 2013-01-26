@@ -59,18 +59,27 @@ package ly.jamie.tetris {
 
       var x:Number = this.width * this.squareSize;
       var y:Number = this.height * this.squareSize;
+      var i:Number = 0;
       with(this.mc.graphics) {
         clear();
+        beginFill(0xDDDDDD);
         lineStyle (1, 0x000000, 100);
         moveTo(0, 0);
         lineTo(x, 0);
         lineTo(x, y);
         lineTo(0, y);
         lineTo(0, 0);
+        endFill();
+      }
+
+      for(i=0; i<this.width * this.squareSize; i+= this.squareSize) {
+        this.mc.graphics.lineStyle(1, 0xCCCCCC, 100);
+        this.mc.graphics.moveTo(i, 0);
+        this.mc.graphics.lineTo(i, y);
       }
 
       debug("GameField#Start...drawn");
-      for(var i:Number=0; i<this.height; i++) {
+      for(i=0; i<this.height; i++) {
         this.arrBitGameField[i] = 0; 
         try {
           this.removeLine(i);
