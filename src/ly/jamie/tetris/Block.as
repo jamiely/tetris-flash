@@ -22,7 +22,7 @@ package ly.jamie.tetris {
       this.mc = mc;
 
       var depth:Number = this.mc.numChildren;
-      var colors:Array = new Array(0x000000, 0xff0000, 0xffff00, 0x00ffff, 0xff00ff, 0x0000ff);
+      var colors:Array = new Array(0x000000, 0xff0000, 0xffff00, 0x00ffff, 0xff00ff, 0x0000ff, 0x00ff00);
       var color:uint = colors[Math.floor(Math.random() * colors.length)];
 
       this.sq1 = new Square(this.mc.addChild(this.squareMC(color)) as MovieClip, location);
