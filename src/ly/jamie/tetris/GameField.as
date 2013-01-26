@@ -4,8 +4,8 @@ package ly.jamie.tetris {
     public static var SquareSize:Number = 5;
     public var arrBitGameField:Array;
     public var arrGameField:Array;
-    public static var height:Number=20;
-    public static var width:Number=10;
+    public var height:Number=20;
+    public var width:Number=10;
 
     public var gameIsOver:Boolean = false;
 
@@ -30,14 +30,14 @@ package ly.jamie.tetris {
     public function GameField() {
       this.allBlocks = new Array();  // used to destroy blocks
 
-      this.arrBitGameField = new Array(GameField.height);
-      this.arrGameField = new Array(GameField.width);
-      for(var i:Number=0; i<GameField.width; i++) {
-        this.arrGameField[i] = new Array(GameField.height);
+      this.arrBitGameField = new Array(20);
+      this.arrGameField = new Array(10);
+      for(var i:Number=0; i<this.width; i++) {
+        this.arrGameField[i] = new Array(this.height);
       }
-      for(i=0; i<GameField.height; i++) {
+      for(i=0; i<this.height; i++) {
         this.arrBitGameField[i] = 0; 
-        for(var x:Number=0; x<GameField.width; x++)
+        for(var x:Number=0; x<this.width; x++)
           this.arrGameField[x][i] = null;
       }
       this.score = 0;
@@ -56,8 +56,8 @@ package ly.jamie.tetris {
 
       trace("Start");
 
-      var x:Number = GameField.width * GameField.SquareSize;
-      var y:Number = GameField.height * GameField.SquareSize;
+      var x:Number = this.width * GameField.SquareSize;
+      var y:Number = this.height * GameField.SquareSize;
       with(this.mc) {
         clear();
         //beginFill(0xFFFFFF, 100);
@@ -70,7 +70,7 @@ package ly.jamie.tetris {
         //endFill();
       }
 
-      for(var i:Number=0; i<GameField.height; i++) {
+      for(var i:Number=0; i<this.height; i++) {
         this.arrBitGameField[i] = 0; 
         this.removeLine(i);
       }
@@ -104,7 +104,7 @@ package ly.jamie.tetris {
 
     public function checkLines():Number {
       var checklines_result:Number = 0; 
-      var y:Number = GameField.height - 1;
+      var y:Number = this.height - 1;
       while (y >= 0) {
         if(this.arrBitGameField[y] == bitEmpty) {
           y = 0;
@@ -117,7 +117,7 @@ package ly.jamie.tetris {
           for(var index:Number = y; index>= 0; index--) {
             if( index>0 ) {
               this.arrBitGameField[index] = this.arrBitGameField[index-1];
-              for(var x:Number=0; x<GameField.width; x++) {
+              for(var x:Number=0; x<this.width; x++) {
                 this.arrGameField[x][index] = this.arrGameField[x][index-1];
                 if( this.arrGameField[x][index] != null ) {
                   this.arrGameField[x][index].setLocation( 
@@ -128,7 +128,7 @@ package ly.jamie.tetris {
               }
             } else {
               this.arrBitGameField[index] = bitEmpty;
-              for(x=0; x<GameField.width; x++) 
+              for(x=0; x<this.width; x++) 
                 this.arrGameField[x][index] = null;
             }
           }
@@ -140,7 +140,7 @@ package ly.jamie.tetris {
     }
 
     public function removeLine(line:Number):void {
-      for(var i:Number=0; i<GameField.width; i++) {
+      for(var i:Number=0; i<this.width; i++) {
         if(this.arrGameField[i][line] != null) {
           this.arrGameField[i][line].destroy(); //flashAndDestroy();
           this.arrGameField[i][line] = null;
@@ -203,7 +203,7 @@ package ly.jamie.tetris {
     public function isInBounds(pt:Point):Boolean {
       var x:Number = this.normalizeCoordinate(pt.x);
       var y:Number = this.normalizeCoordinate(pt.y);
-      return ! ( (y<0 || y >= GameField.height) || (x<0 || x >= GameField.width) );
+      return ! ( (y<0 || y >= this.height) || (x<0 || x >= this.width) );
     }
     public function areInBounds(pts:Array):Boolean {
       for(var i:Number=0; i<pts.length; i++) 
@@ -214,7 +214,7 @@ package ly.jamie.tetris {
       var y:Number;
       for(var i:Number=0; i<pts.length; i++) {
         y  = this.normalizeCoordinate(pts[i].y);
-        if( y<0 || y >= GameField.height ) return true;
+        if( y<0 || y >= this.height ) return true;
       }
       return false;
     }

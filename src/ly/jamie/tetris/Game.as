@@ -18,23 +18,63 @@ package ly.jamie.tetris {
     private var sc:ScoreKeeper;
     private var showScores:Function;
     private var restart:Function;
+    private var txtDebug:TextField = null;
 
+    private function debug(msg:String):void {
+      if(this.txtDebug == null) {
+        // create a debug text field
+        this.txtDebug = new TextField();
+        this.txtDebug.width = 500;
+        this.txtDebug.x = 0;
+        this.txtDebug.y = 300;
+        this.addChild(this.txtDebug);
+      }
+      this.txtDebug.text = msg + "\n" + this.txtDebug.text;
+    }
     function Game() {
+      try {
+        this.initialize();
+      }
+      catch(ex:Object) {
+        debug("Problem initializing game: " + ex.message + 
+          "\n" + ex.stacktrace);
+      }
+    }
+    private function drawBackground(mc: MovieClip, fillColor:uint): void {
+      mc.graphics.beginFill(fillColor);
+      mc.graphics.drawRect(0, 0, 100, 80);
+      mc.graphics.endFill();
+    }
+    private function initialize():void {
+      debug("Game initializing");
+
+      // helps to see
+      this.opaqueBackground = 0x00ff00;
+
       //Selection.setFocus(this);
 
       // Singleton 
       this.gf = GameField.gf;
+      debug("Game field created.");
       this.gfmc = new MovieClip();
       this.gfmc.name = "mcGamefield";
+      this.gfmc.x = 0;
+      this.gfmc.y = 0;
+      this.drawBackground(this.gfmc, 0x0000ff);
       this.addChild(this.gfmc);
+      debug("Game field movie clip added");
 
       // score pane
       this.sd = new MovieClip();
       this.addChild(this.sd);
+      this.sd.x = 100;
+      this.sd.y = 0;
+      this.drawBackground(this.sd, 0xff0000);
       this.sd.name = "mcScore";
       this.sd._visible = false;
       this.sd._x = 2;
       this.sd._y = 2;
+      debug("Score pane created");
 
       // enter initials pane
       this.ei = new MovieClip();
@@ -44,10 +84,11 @@ package ly.jamie.tetris {
       this.ei._x = 2;
       this.ei._y = 22;
       //Selection.setFocus(this.mcEnterInitials.txtInitials);
-      trace(this.ei);
+      debug("Initials pane created");
 
       this.gf.setMovieClip(this.gfmc);
       this.gf.start();
+      debug("Game started");
       this.startingspeed = 10;
       this.speed = this.startingspeed;
       this.clock = 0;
