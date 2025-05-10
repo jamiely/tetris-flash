@@ -24,11 +24,7 @@ run make.
 
 # Demo
 
-Updated version that removes Flash MX dependencies:
-http://jamie.ly/labs/tetris/
-
-Original version from 2004:
-http://jamie.ly/labs/tetris/tetris-2004.swf
+https://jamiely.github.io/tetris-flash/
 
 # Media
 
