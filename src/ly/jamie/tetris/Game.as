@@ -117,6 +117,10 @@ package ly.jamie.tetris {
     private function initialize():void {
       debug("Game initializing");
 
+      // Set up stage properties for Ruffle compatibility
+      this.stage.scaleMode = "noScale";
+      this.stage.align = "TL";  // Top-left alignment
+
       this.opaqueBackground = 0xEEEEEE;
 
       this.setupMovieclips();
