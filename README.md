@@ -10,8 +10,8 @@ A Tetris implementation in ActionScript.
 
 Setup `mxmlc` (as of 2025)
 
-* Installing [Adobe AIR SDK](https://airsdk.harman.com/runtime)
-* Installing [Apache Flex SDK](https://flex.apache.org/installer.html)
+* Install [Adobe AIR SDK](https://airsdk.harman.com/runtime)
+* Install [Apache Flex SDK](https://flex.apache.org/installer.html)
 * Add required environment variables
   ```bash
   export FLEX_HOME="..."
