@@ -1,19 +1,24 @@
 # Tetris
 
-A Tetris implementation in ActionScript using Flash MX. Written circa 2004. 
-This implementation was updated in 2013 to remove its fla dependency
+A Tetris implementation in ActionScript. 
+
+* Written circa 2004 using Flash MX.
+* This implementation was updated in 2013 to remove its fla dependency
+* Updated in 2025 to play using Ruffle flash emulator.
 
 # Compile
 
-Install `mxmlc` and make sure it is in your path. If you're on OS X
-then:
+Setup `mxmlc` (as of 2025)
 
-    brew install mxmlc
+* Installing [Adobe AIR SDK](https://airsdk.harman.com/runtime)
+* Installing [Apache Flex SDK](https://flex.apache.org/installer.html)
+* Add required environment variables
+  ```bash
+  export FLEX_HOME="..."
+  export PATH="$FLEX_HOME/bin:$PATH"
+  ```
 
-and then augment your path, following the provided instructions. Then,
-run make.
-
-    make
+Run `make`.
 
 # Controls
 
@@ -24,20 +29,20 @@ run make.
 
 # Demo
 
-Updated version that removes Flash MX dependencies:
-http://jamie.ly/labs/tetris/
+Updated version that plays using [Ruffle flash emulator](https://ruffle.rs/):
 
-Original version from 2004:
-http://jamie.ly/labs/tetris/tetris-2004.swf
+https://jamiely.github.io/tetris-flash/
 
 # Media
 
 ## Updated
 
-* http://youtu.be/ChhGMjpxiTo
+* 2013: http://youtu.be/ChhGMjpxiTo
+* 2004: http://youtu.be/NbBIJEZKNuI
 
-## Original
+# Troubleshooting
 
-* http://youtu.be/NbBIJEZKNuI
+> Error: unable to open 'libs/player/31.0/playerglobal.swc'
 
-
+You need to obtain a copy of the player. Search for `playerglobal.swc`
+on the web and you should find a copy.
